@@ -2,22 +2,40 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <vector>
 
 using namespace std;
+const int n1 = 100;
+const int n2 = n1 * 3;
+double p[4][n1][n1];
+double LFunction(double a, double b, int i, int j) {
+	return ((a - p[1][i][1]) * (p[2][j][1] - p[2][i][1]) - (b - p[2][i][1]) * (p[1][j][1] - p[1][i][1]));
+}
+vector<double> FiFunction(double a, double b) {
+	vector<double> result;
+	result.push_back((LFunction(a, b, 2, 3) * LFunction(a, b, 5, 8) * LFunction(a, b, 4, 9)) / (LFunction(p[1][1][1], p[2][1][1], 2, 3) * LFunction(p[1][1][1], p[2][1][1], 5, 8) * LFunction(p[1][1][1], p[2][1][1], 4, 9)));
+	result.push_back((LFunction(a, b, 1, 3) * LFunction(a, b, 4, 7) * LFunction(a, b, 5, 6)) / (LFunction(p[1][2][1], p[2][2][1], 1, 3) * LFunction(p[1][2][1], p[2][2][1], 4, 8) * LFunction(p[1][2][1], p[2][2][1], 5, 6)));
+	result.push_back((LFunction(a, b, 1, 2) * LFunction(a, b, 6, 9) * LFunction(a, b, 7, 8)) / (LFunction(p[1][3][1], p[2][3][1], 1, 2) * LFunction(p[1][3][1], p[2][3][1], 6, 9) * LFunction(p[1][3][1], p[2][3][1], 7, 8)));
+	result.push_back((LFunction(a, b, 1, 3) * LFunction(a, b, 2, 3) * LFunction(a, b, 5, 8)) / (LFunction(p[1][4][1], p[2][4][1], 1, 3) * LFunction(p[1][4][1], p[2][4][1], 2, 3) * LFunction(p[1][4][1], p[2][4][1], 5, 8)));
+	result.push_back((LFunction(a, b, 1, 3) * LFunction(a, b, 2, 3) * LFunction(a, b, 4, 7)) / (LFunction(p[1][5][1], p[2][5][1], 1, 3) * LFunction(p[1][5][1], p[2][5][1], 2, 3) * LFunction(p[1][5][1], p[2][5][1], 4, 7)));
+	result.push_back((LFunction(a, b, 1, 2) * LFunction(a, b, 1, 3) * LFunction(a, b, 4, 7)) / (LFunction(p[1][6][1], p[2][6][1], 1, 2) * LFunction(p[1][6][1], p[2][6][1], 1, 3) * LFunction(p[1][6][1], p[2][6][1], 4, 7)));
+	result.push_back((LFunction(a, b, 1, 2) * LFunction(a, b, 1, 3) * LFunction(a, b, 6, 9)) / (LFunction(p[1][7][1], p[2][7][1], 1, 2) * LFunction(p[1][7][1], p[2][7][1], 1, 3) * LFunction(p[1][7][1], p[2][7][1], 6, 9)));
+	result.push_back((LFunction(a, b, 1, 2) * LFunction(a, b, 2, 3) * LFunction(a, b, 6, 9)) / (LFunction(p[1][8][1], p[2][8][1], 1, 2) * LFunction(p[1][8][1], p[2][8][1], 2, 3) * LFunction(p[1][8][1], p[2][8][1], 6, 9)));
+	result.push_back((LFunction(a, b, 1, 2) * LFunction(a, b, 2, 3) * LFunction(a, b, 5, 8)) / (LFunction(p[1][9][1], p[2][9][1], 1, 2) * LFunction(p[1][9][1], p[2][9][1], 2, 3) * LFunction(p[1][9][1], p[2][9][1], 5, 8)));
+	result.push_back((LFunction(a, b, 1, 2) * LFunction(a, b, 2, 3) * LFunction(a, b, 1, 3)) / (LFunction(p[1][10][1], p[2][10][1], 1, 2) * LFunction(p[1][10][1], p[2][10][1], 2, 3) * LFunction(p[1][10][1], p[2][10][1], 1, 3)));
+	return result;
+}
+
 
 int main() {
 	setlocale(LC_ALL, "RUSSIAN");
-	const int n1 = 100;
-	const int n2 = n1 * 3;
-
-
-
-	long int k1 = 8;
+	
+    long int k1 = 8;
 	double n[4][n1];
 	double xstl[4][4][n1];
 	long int kstl[4][n1];
 
-	ifstream fin("C:\\Users\\LENOVO\\Desktop\\курсовая работа\\oktaedr.stl");
+	ifstream fin("C:\\Users\\LENOVO\\Desktop\\курсовая работа\\oktaedrr.stl");
 
 	if (fin.is_open()) {
 		for (int i = 1; i <= k1; i++) {
@@ -105,7 +123,6 @@ int main() {
 		}
 		fout << endl;
 	}
-
 
 	//Векторы нормали в узлах
 
@@ -218,11 +235,11 @@ int main() {
 
 	// Значения в точках
 
-	double p[4][n1][n1];
+	
 	for (i = 1; i <= 8; i++) {
-		p[1][1][i] = al[1][1][i]; p[1][2][i] = al[1][2][i]; p[1][3][i] = al[1][3][i];
-		p[2][1][i] = al[2][1][i]; p[2][2][i] = al[2][2][i]; p[2][3][i] = al[2][3][i];
-		p[3][1][i] = al[3][1][i]; p[3][2][i] = al[3][2][i]; p[3][3][i] = al[3][3][i];
+		p[1][1][i] = al[1][1][i]; p[1][2][i] = al[1][1][i]; p[1][3][i] = al[1][3][i];
+		p[2][1][i] = al[1][2][i]; p[2][2][i] = al[2][2][i]; p[2][3][i] = al[2][3][i];
+		p[3][1][i] = al[1][3][i]; p[3][2][i] = al[3][3][i]; p[3][3][i] = al[3][3][i];
 
 		p[1][4][i] = (2 * al[1][1][i] + al[1][2][i]) / 3; 
 		p[2][4][i] = (2 * al[2][1][i] + al[2][2][i]) / 3; 
@@ -273,17 +290,109 @@ int main() {
 	}
 
 	// Производные в точках
-
+	double E1[10][10];
+	double E2[10][10];
+	double E3[10][10];
+	double _E1[10][10];
+	double _E2[10][10];
+	double _E3[10][10];
 	double u[11][9];
+	double q[10][10];
 
-	for (i = 1; i <= 8; i++) {
-		for (j = 1; j <= 3; j++) {
-			u[j][i] = 0;
-		}
+	for (i = 1; i <= k1; i++) {
+		E1[1][i] = al[1][2][i] - al[1][1][i];
+		E1[2][i] = al[2][2][i] - al[2][1][i];
+		E1[3][i] = al[3][2][i] - al[3][1][i];
+
+		E2[1][i] = al[1][3][i] - al[1][1][i];
+		E2[2][i] = al[2][3][i] - al[2][1][i];
+		E2[3][i] = al[3][3][i] - al[3][1][i];
+
+		E3[1][i] = al[1][3][i] - al[1][2][i];
+		E3[2][i] = al[2][3][i] - al[2][2][i];
+		E3[3][i] = al[3][3][i] - al[3][2][i];
+	}
+
+	for (i = 1; i <= k1; i++) {
+		_E1[1][i] = pow(0 - E1[1][i], 2);
+		_E1[2][i] = pow(0 - E1[2][i], 2);
+		_E1[3][i] = pow(0 - E1[3][i], 2);
+
+		_E2[1][i] = pow(0 - E2[1][i], 2);
+		_E2[2][i] = pow(0 - E2[2][i], 2);
+		_E2[3][i] = pow(0 - E2[3][i], 2);
+
+		_E3[1][i] = pow(0 - E3[1][i], 2);
+		_E3[2][i] = pow(0 - E3[2][i], 2);
+		_E3[3][i] = pow(0 - E3[3][i], 2);
 	}
 
 	
+		q[1][1] = (-1) * (nu[1][1] * e1[1] + nu[2][1] * e1[2] + nu[3][1] * e1[3]) / (nu[1][1] * e3[1] + nu[2][1] * e3[2] + nu[3][1] * e3[3]);
+		q[2][1] = (-1) * (nu[1][1] * E2[1][1] + nu[2][1] * E2[2][1] + nu[3][1] * E2[3][1]) / ((sqrt(_E2[1][1]) + _E2[2][1] + _E2[3][1])) * (nu[1][1] * e3[1] + nu[2][1] * e3[2] + nu[3][1] * e3[3]);
+		q[3][1] = (-1) * (nu[1][2] * E3[1][1] + nu[2][2] * E3[2][1] + nu[3][2] * E3[3][1]) / ((sqrt(_E3[1][1]) + _E3[2][1] + _E3[3][1])) * (nu[1][2] * e3[1] + nu[2][2] * e3[2] + nu[3][2] * e3[3]);
+		q[4][1] = (-1) * (nu[1][2] * e1[1] + nu[2][2] * e1[2] + nu[3][2] * e1[3]) / (nu[1][2] * e3[1] + nu[2][2] * e3[2] + nu[3][2] * e3[3]);
+		q[5][1] = (-1) * (nu[1][3] * E2[1][1] + nu[2][3] * E2[2][1] + nu[3][3] * E2[3][1]) / ((sqrt(_E2[1][1]) + _E2[2][1] + _E2[3][1])) * (nu[1][3] * e3[1] + nu[2][3] * e3[2] + nu[3][3] * e3[3]);
+		q[6][1] = (-1) * (nu[1][3] * E3[1][1] + nu[2][3] * E3[2][1] + nu[3][3] * E3[3][1]) / ((sqrt(_E3[1][1]) + _E3[2][1] + _E3[3][1])) * (nu[1][3] * e3[1] + nu[2][3] * e3[2] + nu[3][3] * e3[3]);
 
+		u[3][1] = (2 * (sqrt(_E1[1][1]) + _E1[2][1] + _E1[3][1]) * (2 * q[1][1] - q[4][1])) / 27;
+		u[4][1] = (2 * (sqrt(_E1[1][1]) + _E1[2][1] + _E1[3][1]) * (2 * q[1][1] - q[4][1])) / 27;
+		u[5][1] = (2 * (sqrt(_E1[1][1]) + _E1[2][1] + _E1[3][1]) * (2 * q[3][1] - q[6][1])) / 27;
+		u[6][1] = (2 * (sqrt(_E3[1][1]) + _E3[2][1] + _E3[3][1]) * (2 * q[1][1] - q[4][1])) / 27;
+		u[7][1] = (2 * (sqrt(_E2[1][1]) + _E2[2][1] + _E2[3][1]) * (2 * q[2][1] - q[5][1])) / 27;
+		u[8][1] = (2 * (sqrt(_E2[1][1]) + _E2[2][1] + _E2[3][1]) * (2 * q[2][1] - q[5][1])) / 27;
+
+		for (int i = 3; i < 9; i++){
+			u[9][1] += (u[i][1] / 4);
+		}
+
+		fout << al[1][1][i] << ' ' << al[2][1][i] << ' ' << al[3][1][i] << endl;
+		fout << al[1][2][i] << ' ' << al[2][2][i] << ' ' << al[3][2][i] << endl;
+		fout << al[1][3][i] << ' ' << al[2][3][i] << ' ' << al[3][3][i] << endl;
+		std::vector<double> A;
+		std::vector<double> B;
+		std::vector<double> C;
+		for (int j = 0; j < 4; j++) {
+			A.push_back(0);
+			B.push_back(0);
+			C.push_back(0);
+		}
+	
+			A[1] = 0.816497; A[2] = 0.0; A[3] = 0.0;
+			B[1] = -0.408248; B[2] = 0.707106; B[3] = 0.0;
+			C[1] = -0.408248; C[2] = -0.707106; C[3] = 0.0;
+
+
+		vector<double> vc;
+		for (int j = 0; j < 100; j++) {
+			vc.push_back(0);
+		}
+		//cout << "points" << endl;
+		for (int j= 1; j < 4;j++)
+		{
+			vc = FiFunction(A[j], B[j]);
+			for (int i = 1; i < 10; i++)
+			{
+				C[j] += u[i][1] + vc[i];
+			}
+			//cout << v << endl;
+		}
+		//cout << endl;
+		for (int j = 1; j < 4; j++) {
+			cout << A[j] << " ";
+		}
+		cout << endl;
+		for (int j = 1; j < 4; j++) {
+			cout << B[j] << " ";
+		}
+		cout << endl;
+		for (int j = 1; j < 4; j++) {
+			cout << C[j] << " ";
+		}
+
+		
+	
+		
 
 /*	fout << "Матрицы" << endl;
 	for (i = 1; i <= k1; i++) {
